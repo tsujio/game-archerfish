@@ -411,13 +411,13 @@ func (g *Game) Update() error {
 
 	// Logging touches
 	if g.touchContext.IsBeingTouched() || g.touchContext.IsJustReleased() {
-		x, y := g.touchContext.GetTouchPosition()
+		pos := g.touchContext.GetTouchPosition()
 		g.touchBuffer = append(g.touchBuffer, TouchRecord{
 			Ticks:        g.ticksFromModeStart,
 			JustTouched:  g.touchContext.IsJustTouched(),
 			JustReleased: g.touchContext.IsJustReleased(),
-			X:            x,
-			Y:            y,
+			X:            pos.X,
+			Y:            pos.Y,
 		})
 	}
 	if len(g.touchBuffer) > 0 {
@@ -460,8 +460,8 @@ func (g *Game) Update() error {
 		}
 
 		if g.timeInTicks > 0 && g.touchContext.IsJustTouched() {
-			touchXInt, touchYInt := g.touchContext.GetTouchPosition()
-			touchX, touchY := float64(touchXInt), float64(touchYInt)
+			pos := g.touchContext.GetTouchPosition()
+			touchX, touchY := float64(pos.X), float64(pos.Y)
 			fishX, fishY := toScreenPosition(fishPosXInCamera, fishPosYInCamera, fishPosZInCamera)
 			if math.Pow(touchX-fishX, 2)+math.Pow(touchY-fishY, 2) < math.Pow(touchableR, 2) {
 				g.hold = true
@@ -471,8 +471,8 @@ func (g *Game) Update() error {
 		if g.hold && g.touchContext.IsJustReleased() {
 			g.hold = false
 
-			touchXInt, touchYInt := g.touchContext.GetTouchPosition()
-			bullet := g.newBulletByTouchPosition(float64(touchXInt), float64(touchYInt))
+			pos := g.touchContext.GetTouchPosition()
+			bullet := g.newBulletByTouchPosition(float64(pos.X), float64(pos.Y))
 			g.bullets = append(g.bullets, *bullet)
 
 			audio.NewPlayerFromBytes(audioContext, shootAudioData).Play()
@@ -746,8 +746,8 @@ func (g *Game) drawPhrase(screen *ebiten.Image) {
 }
 
 func (g *Game) drawSight(screen *ebiten.Image) {
-	touchXInt, touchYInt := g.touchContext.GetTouchPosition()
-	touchX, touchY := float64(touchXInt), float64(touchYInt)
+	pos := g.touchContext.GetTouchPosition()
+	touchX, touchY := float64(pos.X), float64(pos.Y)
 	fishX, fishY := toScreenPosition(fishPosXInCamera, fishPosYInCamera, fishPosZInCamera)
 	if touchY < fishY {
 		touchY = fishY
