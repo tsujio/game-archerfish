@@ -41,7 +41,7 @@ const (
 	normalEnemyYInScreen = screenHeight/2 - 50.0
 	dizzyEnemyYInScreen  = normalEnemyYInScreen - 70
 	shyEnemyYInScreen    = dizzyEnemyYInScreen - 70
-	enemyZ               = 200
+	enemyZ               = 200.0
 	finishTimeInTicks    = 60 * 60
 )
 
@@ -471,8 +471,8 @@ func (g *Game) Update() error {
 		if g.hold && g.touchContext.IsJustReleased() {
 			g.hold = false
 
-			pos := g.touchContext.GetTouchPosition()
-			bullet := g.newBulletByTouchPosition(float64(pos.X), float64(pos.Y))
+			x, y := g.getHoldPosition()
+			bullet := g.newBulletByTouchPosition(x, y)
 			g.bullets = append(g.bullets, *bullet)
 
 			audio.NewPlayerFromBytes(audioContext, shootAudioData).Play()
@@ -711,6 +711,27 @@ func (g *Game) Update() error {
 	return nil
 }
 
+func (g *Game) getHoldPosition() (float64, float64) {
+	pos := g.touchContext.GetTouchPosition()
+	x, y := float64(pos.X), float64(pos.Y)
+
+	_, fishY := toScreenPosition(fishPosXInCamera, fishPosYInCamera, fishPosZInCamera)
+	if x < 0 {
+		x = 0
+	}
+	if x > screenWidth {
+		x = screenWidth
+	}
+	if y < fishY {
+		y = fishY
+	}
+	if y > screenHeight {
+		y = screenHeight
+	}
+
+	return x, y
+}
+
 func (g *Game) newBulletByTouchPosition(touchX, touchY float64) *Bullet {
 	fishX, fishY := toScreenPosition(fishPosXInCamera, fishPosYInCamera, fishPosZInCamera)
 
@@ -746,20 +767,23 @@ func (g *Game) drawPhrase(screen *ebiten.Image) {
 }
 
 func (g *Game) drawSight(screen *ebiten.Image) {
-	pos := g.touchContext.GetTouchPosition()
-	touchX, touchY := float64(pos.X), float64(pos.Y)
 	fishX, fishY := toScreenPosition(fishPosXInCamera, fishPosYInCamera, fishPosZInCamera)
-	if touchY < fishY {
-		touchY = fishY
-	}
-	ebitenutil.DrawLine(screen, fishX, fishY, touchX, touchY, color.White)
+	x, y := g.getHoldPosition()
+	ebitenutil.DrawLine(screen, fishX, fishY, x, y, color.White)
 
-	bullet := g.newBulletByTouchPosition(touchX, touchY)
+	bullet := g.newBulletByTouchPosition(x, y)
 	t := (enemyZ - bullet.z) / bullet.vz
 	xt := bullet.x + bullet.vx*t
 	yt := bullet.y + bullet.vy*t + gravity/2*t*t
-	x, y := toScreenPosition(xt, yt, enemyZ)
-	ebitenutil.DrawCircle(screen, x, y, 10, color.RGBA{0, 0, 0, 0x30})
+	zt := enemyZ
+	if yt > 0 {
+		t = (-bullet.vy + math.Sqrt(math.Pow(bullet.vy, 2)-4*gravity/2*bullet.y)) / gravity
+		xt = bullet.x + bullet.vx*t
+		yt = 0
+		zt = bullet.z + bullet.vz*t
+	}
+	xts, yts := toScreenPosition(xt, yt, zt)
+	ebitenutil.DrawCircle(screen, xts, yts, 10, color.RGBA{0, 0, 0, 0x30})
 }
 
 func (g *Game) drawTime(screen *ebiten.Image) {
