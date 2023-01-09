@@ -58,6 +58,7 @@ var (
 	hitAudioData        = resourceutil.ForceLoadDecodedAudio(resources, "resources/魔王魂 効果音 システム16.mp3.dat", audioContext)
 	gameOverAudioData   = resourceutil.ForceLoadDecodedAudio(resources, "resources/魔王魂 効果音 物音15.mp3.dat", audioContext)
 	rankingAudioData    = resourceutil.ForceLoadDecodedAudio(resources, "resources/魔王魂 効果音 システム46.mp3.dat", audioContext)
+	bgmPlayer           = resourceutil.ForceCreateBGMPlayer(resources, "resources/bgm-archerfish.wav", audioContext)
 )
 
 func toScreenPosition(xInCamera, yInCamera, zInCamera float64) (float64, float64) {
@@ -455,6 +456,9 @@ func (g *Game) Update() error {
 		if g.ticksFromModeStart > 3*60 {
 			if g.timeInTicks == 0 {
 				audio.NewPlayerFromBytes(audioContext, timeStartAudioData).Play()
+
+				bgmPlayer.Rewind()
+				bgmPlayer.Play()
 			}
 			g.timeInTicks++
 		}
@@ -700,11 +704,13 @@ func (g *Game) Update() error {
 				audio.NewPlayerFromBytes(audioContext, rankingAudioData).Play()
 			} else {
 				g.initialize()
+				bgmPlayer.Pause()
 			}
 		}
 	case GameModeRanking:
 		if len(g.ranking) == 0 || g.ticksFromModeStart > 60 && g.touchContext.IsJustTouched() {
 			g.initialize()
+			bgmPlayer.Pause()
 		}
 	}
 
