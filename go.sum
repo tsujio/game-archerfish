@@ -57,6 +57,8 @@ github.com/tsujio/game-logging-server/client v0.0.0-20230108034029-b67ba3afd8f1 
 github.com/tsujio/game-logging-server/client v0.0.0-20230108034029-b67ba3afd8f1/go.mod h1:HfLj9UswkjpQEPlfiwqpQ04KM7l9FGsVuROdInOsLPU=
 github.com/tsujio/game-logging-server/client v0.0.0-20230108051530-a7e4a1b23b63 h1:GsrGlyozjXoo3sjX04qEYqE02k/Bs87FXlg5mf6FQ5c=
 github.com/tsujio/game-logging-server/client v0.0.0-20230108051530-a7e4a1b23b63/go.mod h1:HfLj9UswkjpQEPlfiwqpQ04KM7l9FGsVuROdInOsLPU=
+github.com/tsujio/game-logging-server/client v0.0.0-20230110033045-e65c6fda33d7 h1:2lLlkwbR6JNg2RQs81eqn6r6iiO8lgqbH5QFlp8Fui8=
+github.com/tsujio/game-logging-server/client v0.0.0-20230110033045-e65c6fda33d7/go.mod h1:HfLj9UswkjpQEPlfiwqpQ04KM7l9FGsVuROdInOsLPU=
 github.com/tsujio/game-util v0.0.0-20221230144321-6a65549daea6 h1:FFDD3Iev+84MgsdNhsp0YvEAwTawtpv33aylpB+tMrU=
 github.com/tsujio/game-util v0.0.0-20221230144321-6a65549daea6/go.mod h1:02C9VDyrPDOH0KFwiysIaXKWjihSy5H5bsAM8EYzEZ8=
 github.com/tsujio/game-util v0.0.0-20221231070240-937e19a8812b h1:2WKQZmIaApMcUGEwjjO+/FKqn9ihmJilfnZgxOZRzVM=
@@ -88,6 +90,8 @@ golang.org/x/exp/shiny v0.0.0-20221230185412-738e83a70c30 h1:GoCh95fUWm4yMPxPDXF
 golang.org/x/exp/shiny v0.0.0-20221230185412-738e83a70c30/go.mod h1:UH99kUObWAZkDnWqppdQe5ZhPYESUw8I0zVV1uWBR+0=
 golang.org/x/exp/shiny v0.0.0-20230105202349-8879d0199aa3 h1:SNqqrgBNPBM0UyNExonANe2CupoBEo5YmToG0ex2Ts8=
 golang.org/x/exp/shiny v0.0.0-20230105202349-8879d0199aa3/go.mod h1:UH99kUObWAZkDnWqppdQe5ZhPYESUw8I0zVV1uWBR+0=
+golang.org/x/exp/shiny v0.0.0-20230108222341-4b8118a2686a h1:mTWP1/jZnkR5zmffmGg9HfL6w81dS/u6ZJSOa4i8ot8=
+golang.org/x/exp/shiny v0.0.0-20230108222341-4b8118a2686a/go.mod h1:UH99kUObWAZkDnWqppdQe5ZhPYESUw8I0zVV1uWBR+0=
 golang.org/x/image v0.0.0-20190227222117-0694c2d4d067/go.mod h1:kZ7UVZpmo3dzQBMxlp+ypCbDeSB+sBbTgSJuh5dn5js=
 golang.org/x/image v0.0.0-20190703141733-d6a02ce849c9/go.mod h1:FeLwcggjj3mMvU+oOTbSwawSJRM1uh48EjtB4UJZlP0=
 golang.org/x/image v0.0.0-20190802002840-cff245a6509b/go.mod h1:FeLwcggjj3mMvU+oOTbSwawSJRM1uh48EjtB4UJZlP0=
