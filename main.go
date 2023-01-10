@@ -16,7 +16,6 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/text"
-	"github.com/tsujio/game-logging-server/client"
 	logging "github.com/tsujio/game-logging-server/client"
 	"github.com/tsujio/game-util/drawutil"
 	"github.com/tsujio/game-util/resourceutil"
@@ -395,7 +394,8 @@ type Game struct {
 	ticksFromModeStart uint64
 	hold               bool
 	score              int
-	ranking            []client.GameScore
+	rankingChan        <-chan []logging.GameScore
+	ranking            []logging.GameScore
 	fish               *Fish
 	bullets            []Bullet
 	splashEffects      []SplashEffect
@@ -689,16 +689,26 @@ func (g *Game) Update() error {
 
 			audio.NewPlayerFromBytes(audioContext, gameOverAudioData).Play()
 
-			go (func() {
-				score := g.score
-				logging.RegisterScore(gameName, g.playerID, score)
+			ch := make(chan []logging.GameScore, 1)
+
+			go (func(playerID string, score int, c chan<- []logging.GameScore) {
+				logging.RegisterScore(gameName, playerID, score)
 				if ranking, err := logging.GetScoreList(gameName); err == nil {
-					g.ranking = ranking
+					c <- ranking
 				}
-			})()
+				close(c)
+			})(g.playerID, g.score, ch)
+
+			g.rankingChan = ch
 		}
 	case GameModeGameOver:
 		if g.ticksFromModeStart > 60 && g.touchContext.IsJustTouched() {
+			select {
+			case ranking := <-g.rankingChan:
+				g.ranking = ranking
+			default:
+			}
+
 			if len(g.ranking) > 0 {
 				g.setNextMode(GameModeRanking)
 				audio.NewPlayerFromBytes(audioContext, rankingAudioData).Play()
@@ -1024,6 +1034,7 @@ func (g *Game) initialize() {
 	g.random = rand.New(rand.NewSource(seed))
 	g.hold = false
 	g.score = 0
+	g.rankingChan = nil
 	g.ranking = nil
 	g.fish = &Fish{
 		game: g,
