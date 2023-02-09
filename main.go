@@ -691,13 +691,13 @@ func (g *Game) Update() error {
 
 			ch := make(chan []logging.GameScore, 1)
 
-			go (func(playerID string, score int, c chan<- []logging.GameScore) {
-				logging.RegisterScore(gameName, playerID, score)
+			go (func(playerID string, playID string, score int, c chan<- []logging.GameScore) {
+				logging.RegisterScore(gameName, playerID, playID, score)
 				if ranking, err := logging.GetScoreList(gameName); err == nil {
 					c <- ranking
 				}
 				close(c)
-			})(g.playerID, g.score, ch)
+			})(g.playerID, g.playID, g.score, ch)
 
 			g.rankingChan = ch
 		}
@@ -1019,6 +1019,12 @@ func (g *Game) setNextMode(mode GameMode) {
 }
 
 func (g *Game) initialize() {
+	var playID string
+	if playIDObj, err := uuid.NewRandom(); err == nil {
+		playID = playIDObj.String()
+	}
+	g.playID = playID
+
 	var seed int64
 	if g.fixedRandomSeed != 0 {
 		seed = g.fixedRandomSeed
@@ -1095,17 +1101,8 @@ func main() {
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Archerfish")
 
-	playIDObj, err := uuid.NewRandom()
-	var playID string
-	if err != nil {
-		playID = "?"
-	} else {
-		playID = playIDObj.String()
-	}
-
 	game := &Game{
 		playerID:        playerID,
-		playID:          playID,
 		fixedRandomSeed: randomSeed,
 		touchContext:    touchutil.CreateTouchContext(),
 	}

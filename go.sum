@@ -59,6 +59,8 @@ github.com/tsujio/game-logging-server/client v0.0.0-20230108051530-a7e4a1b23b63 
 github.com/tsujio/game-logging-server/client v0.0.0-20230108051530-a7e4a1b23b63/go.mod h1:HfLj9UswkjpQEPlfiwqpQ04KM7l9FGsVuROdInOsLPU=
 github.com/tsujio/game-logging-server/client v0.0.0-20230110033045-e65c6fda33d7 h1:2lLlkwbR6JNg2RQs81eqn6r6iiO8lgqbH5QFlp8Fui8=
 github.com/tsujio/game-logging-server/client v0.0.0-20230110033045-e65c6fda33d7/go.mod h1:HfLj9UswkjpQEPlfiwqpQ04KM7l9FGsVuROdInOsLPU=
+github.com/tsujio/game-logging-server/client v0.0.0-20230209124752-0a9118f79ee0 h1:sF2p2iLVuJr97Xk+D/Qsf76STWXq0UHM/ElGAf/QtLI=
+github.com/tsujio/game-logging-server/client v0.0.0-20230209124752-0a9118f79ee0/go.mod h1:HfLj9UswkjpQEPlfiwqpQ04KM7l9FGsVuROdInOsLPU=
 github.com/tsujio/game-util v0.0.0-20221230144321-6a65549daea6 h1:FFDD3Iev+84MgsdNhsp0YvEAwTawtpv33aylpB+tMrU=
 github.com/tsujio/game-util v0.0.0-20221230144321-6a65549daea6/go.mod h1:02C9VDyrPDOH0KFwiysIaXKWjihSy5H5bsAM8EYzEZ8=
 github.com/tsujio/game-util v0.0.0-20221231070240-937e19a8812b h1:2WKQZmIaApMcUGEwjjO+/FKqn9ihmJilfnZgxOZRzVM=

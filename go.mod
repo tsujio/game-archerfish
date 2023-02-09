@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/google/uuid v1.3.0
 	github.com/hajimehoshi/ebiten/v2 v2.4.15
-	github.com/tsujio/game-logging-server/client v0.0.0-20230110033045-e65c6fda33d7
+	github.com/tsujio/game-logging-server/client v0.0.0-20230209124752-0a9118f79ee0
 	github.com/tsujio/game-util v0.0.0-20230108161137-f18b97c528ca
 )
 
